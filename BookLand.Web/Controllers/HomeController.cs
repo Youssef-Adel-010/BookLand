@@ -1,4 +1,4 @@
-using BookLand.Web.Models;
+using BookLand.Web.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
