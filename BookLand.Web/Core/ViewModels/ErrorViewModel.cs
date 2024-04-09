@@ -1,4 +1,4 @@
-namespace BookLand.Web.Core.Models;
+namespace BookLand.Web.Core.ViewModels;
 
 public class ErrorViewModel
 {

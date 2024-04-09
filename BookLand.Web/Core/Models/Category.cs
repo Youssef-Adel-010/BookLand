@@ -11,4 +11,6 @@ public class Category
 
     public DateTime? LastUpdatedOn { get; set; }
 
+    public bool IsDeleted { get; set; }
+
 }

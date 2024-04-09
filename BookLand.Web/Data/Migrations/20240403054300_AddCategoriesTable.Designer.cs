@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookLand.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240403043813_AddCategoriesTable")]
+    [Migration("20240403054300_AddCategoriesTable")]
     partial class AddCategoriesTable
     {
         /// <inheritdoc />
@@ -35,6 +35,9 @@ namespace BookLand.Web.Data.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime2");
