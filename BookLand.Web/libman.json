@@ -9,6 +9,28 @@
         "font/fonts/bootstrap-icons.woff",
         "font/fonts/bootstrap-icons.woff2"
       ]
+    },
+    {
+      "library": "animate.css@4.1.1",
+      "destination": "wwwroot/lib/animate.css/",
+      "files": [
+        "animate.min.css"
+      ]
+    },
+    {
+      "library": "toastr.js@2.1.4",
+      "destination": "wwwroot/lib/toastr.js/"
+    },
+    {
+      "library": "sweetalert2@11.10.7",
+      "destination": "wwwroot/lib/sweetalert2/"
+    },
+    {
+      "library": "jquery-ajax-unobtrusive@3.2.6",
+      "destination": "wwwroot/lib/jquery-ajax-unobtrusive/",
+      "files": [
+        "jquery.unobtrusive-ajax.min.js"
+      ]
     }
   ]
 }

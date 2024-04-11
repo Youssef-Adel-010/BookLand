@@ -21,7 +21,7 @@ public class CategoriesController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        return View("Form");
+        return PartialView("_Form");
     }
 
     [HttpPost]
@@ -29,13 +29,13 @@ public class CategoriesController : Controller
     public IActionResult Create(CategoryFromViewModel model)
     {
         if (!ModelState.IsValid)
-            return View("Form", model);
+            return BadRequest();
 
         Category category = new() { Name = model.Name };
         _context.Categories.Add(category);
         _context.SaveChanges();
 
-        return RedirectToAction(nameof(Index));
+        return PartialView("_CategoryRow", category);
     }
 
     [HttpGet]
@@ -47,7 +47,7 @@ public class CategoriesController : Controller
 
         CategoryFromViewModel model = new() { Id = id, Name = category.Name };
 
-        return View("Form", model);
+        return PartialView("_Form", model);
     }
 
 
@@ -56,7 +56,7 @@ public class CategoriesController : Controller
     public IActionResult Edit(CategoryFromViewModel model)
     {
         if (!ModelState.IsValid)
-            return View("Form", model);
+            return BadRequest();
 
         Category? category = _context.Categories.Find(model.Id);
 
@@ -67,7 +67,7 @@ public class CategoriesController : Controller
         category.LastUpdatedOn = DateTime.Now;
         _context.SaveChanges();
 
-        return RedirectToAction(nameof(Index));
+        return PartialView("_CategoryRow", category);
     }
 
     [HttpPost]

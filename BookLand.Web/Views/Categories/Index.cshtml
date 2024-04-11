@@ -21,7 +21,7 @@
             Categories
         </h4>
         <div class="card-toolbar">
-            <a asp-controller="Categories" asp-action="Create" class="btn btn-sm btn-primary">
+            <a class="btn btn-sm btn-primary js-render-modal" data-title="Add Category" data-url="/Categories/Create">
                 <i class="bi bi-plus-square-dotted"></i>
                 Add
             </a>
@@ -58,49 +58,10 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="fill-the-table">
                         @foreach (Category category in Model)
                         {
-                            <tr class="text-center">
-                                <td>@category.Name</td>
-                                <td>
-                                    <span class="badge badge-light-@(category.IsDeleted ? "danger" : "success") js-status">
-                                        @(category.IsDeleted ? "Deleted" : "Available")
-                                    </span>
-
-                                </td>
-                                <td>@category.CreatedOn</td>
-                                <td class="js-last-updated-on">@category.LastUpdatedOn</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-icon btn-light-twitter me-5 " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
-                                            </svg>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item btn-light-twitter" asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id">
-
-                                                    <svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
-                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"></path>
-                                                    </svg>
-                                                    Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:;" class="dropdown-item js-toggle-status" data-id="@category.Id">
-                                                    <svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-toggle-on" viewBox="0 0 16 16">
-                                                        <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8" />
-                                                    </svg>
-                                                    Toggle State
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                            <partial name="_CategoryRow" model="category" />
                         }
                     </tbody>
                 </table>
@@ -113,23 +74,52 @@
 
 @section Scripts
 {
+    <partial name="_ValidationScriptsPartial">
     <script>
         $(document).ready(function () {
             $('.js-toggle-status').on('click', function () {
-                var btn = $(this);
-                $.post({
-                    url: '/Categories/ToggleState/' + btn.data('id'),
-                    data: {
-                        '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn btn-danger",
+                        cancelButton: "btn btn-success"
                     },
-                    success: function (lastUpdatedOn) {
-                        var status = btn.parents('tr').find('.js-status');
-                        var newStatus = status.text().trim() === 'Deleted' ? 'Available' : 'Deleted';
-                        status.text(newStatus).toggleClass('badge-light-success badge-light-danger');
-                        btn.parents('tr').find('.js-last-updated-on').html(lastUpdatedOn)
+                    buttonsStyling: false
+                });
+                swalWithBootstrapButtons.fire({
+                    title: "Are you sure?",
+                    text: "You want to change category state",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var btn = $(this);
+                        $.post({
+                            url: '/Categories/ToggleState/' + btn.data('id'),
+                            data: {
+                                '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                            },
+                            success: function (lastUpdatedOn) {
+                                var row = btn.parents('tr');
+                                var status = row.find('.js-status');
+                                var newStatus = status.text().trim() === 'Deleted' ? 'Available' : 'Deleted';
+                                status.text(newStatus).toggleClass('badge-light-success badge-light-danger');
+                                row.find('.js-last-updated-on').text(lastUpdatedOn)
+                                row.addClass('animate__animated animate__flash');
+                                showSuccessMessage();
+                            }
+                        })
                     }
-                })
+                });
             });
+            var row = $('.js-to-delete');
+            row.on('animationend', function () {
+                row.removeClass('animate__animated animate__flash');
+            });
+            
         });
     </script>
 }
