@@ -1,4 +1,5 @@
 ﻿using BookLand.Web.Core.ViewModels;
+using BookLand.Web.Filters;
 
 namespace BookLand.Web.Controllers;
 public class CategoriesController : Controller
@@ -19,6 +20,7 @@ public class CategoriesController : Controller
     }
 
     [HttpGet]
+    [AjaxOnlyFilter]
     public IActionResult Create()
     {
         return PartialView("_Form");
@@ -39,6 +41,7 @@ public class CategoriesController : Controller
     }
 
     [HttpGet]
+    [AjaxOnlyFilter]
     public IActionResult Edit(int id)
     {
         Category? category = _context.Categories.Find(id);
