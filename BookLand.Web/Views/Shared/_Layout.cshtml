@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - BookLand</title>
     <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
-    <link href="~/lib/toastr.js/toastr.min.css" rel="stylesheet" />
-    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="~/lib/toastr.js/toastr.min.css" />
     <!--begin::Fonts(mandatory for all pages)-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     <!--end::Fonts-->
-    <link href="~/lib/animate.css/animate.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/animate.css/animate.min.css" />
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link rel="stylesheet" href="~/assets/css/plugins.bundle.css" type="text/css" />
     <link rel="stylesheet" href="~/assets/css/style.bundle.css" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
+    @await RenderSectionAsync("Styles", required: false)
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BookLand.Web.styles.css" asp-append-version="true" />
 </head>
@@ -75,6 +75,8 @@
     <script src="~/assets/js/plugins.bundle.js"></script>
     <script src="~/assets/js/scripts.bundle.js"></script>
     <!--end::Global Javascript Bundle-->
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    @await RenderSectionAsync("Plugins", required: false)
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

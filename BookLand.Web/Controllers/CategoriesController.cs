@@ -37,7 +37,7 @@ public class CategoriesController : Controller
         _context.Categories.Add(category);
         _context.SaveChanges();
 
-        return PartialView("_CategoryRow", category);
+        return PartialView("_CategoryRaw", category);
     }
 
     [HttpGet]
@@ -70,7 +70,7 @@ public class CategoriesController : Controller
         category.LastUpdatedOn = DateTime.Now;
         _context.SaveChanges();
 
-        return PartialView("_CategoryRow", category);
+        return PartialView("_CategoryRaw", category);
     }
 
     [HttpPost]
