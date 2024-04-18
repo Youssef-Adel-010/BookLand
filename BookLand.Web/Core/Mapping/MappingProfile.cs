@@ -4,7 +4,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // Categories
+        // Categories Mapping
         CreateMap<Category, CategoryViewModel>();
         CreateMap<CategoryFormViewModel, Category>().ReverseMap();
     }
