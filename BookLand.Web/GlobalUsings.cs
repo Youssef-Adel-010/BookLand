@@ -1,5 +1,7 @@
 ﻿global using BookLand.Web.Core.Models;
+global using BookLand.Web.Core.ViewModels;
 global using BookLand.Web.Data;
+global using BookLand.Web.Filters;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Mvc;

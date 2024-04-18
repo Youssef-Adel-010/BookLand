@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Category>
+﻿@model IEnumerable<CategoryViewModel>
 
 @{
     ViewData["Title"] = "Categories";
@@ -13,6 +13,7 @@
         }
     </style>
 }
+
 <div class="alert bg-light-primary border border-primary border-2 border-dashed d-flex justify-content-between w-100 p-6 mb-2">
     <div class="d-flex align-items-center">
         <div class="symbol symbol-40px me-4">
@@ -30,15 +31,12 @@
         </div>
     </div>
     <div>
-        <a href="javascript:;" class="btn btn-sm btn-primary js-render-modal"
-           data-title="Add Category" data-url="/Categories/Create">
+        <a href="javascript:;" class="btn btn-sm btn-primary js-render-modal" data-title="Add Category" data-url="/Categories/Create">
             <i class="bi bi-plus-square-dotted"></i>
             Add
         </a>
     </div>
 </div>
-
-
 <div class="card shadow-sm">
     <div class="card-header align-items-center py-5 gap-2 gap-md-5">
         <div class="card-title">
@@ -97,16 +95,16 @@
                     </tr>
                 </thead>
                 <tbody class="fill-the-table">
-                    @foreach (Category category in Model)
+                    @foreach (CategoryViewModel category in Model)
                     {
                         <partial name="_CategoryRaw" model="category" />
                     }
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>
+
 
 @Html.AntiForgeryToken()
 
@@ -118,55 +116,4 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial">
-        <script>
-
-            $(document).ready(function () {
-
-                // Toggle state
-                $('.js-toggle-status').on('click', function () {
-
-                    const swalWithBootstrapButtons = Swal.mixin({
-                        customClass: {
-                            confirmButton: "btn btn-danger",
-                            cancelButton: "btn btn-success"
-                        },
-                        buttonsStyling: false
-                    });
-                    swalWithBootstrapButtons.fire({
-                        title: "Are you sure?",
-                        text: "You want to change category state",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonText: "Yes",
-                        cancelButtonText: "No",
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            var btn = $(this);
-                            $.post({
-                                url: '/Categories/ToggleState/' + btn.data('id'),
-                                data: {
-                                    '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
-                                },
-                                success: function (lastUpdatedOn) {
-                                    var row = btn.parents('tr');
-                                    var status = row.find('.js-status');
-                                    var newStatus = status.text().trim() === 'Deleted' ? 'Available' : 'Deleted';
-                                    status.text(newStatus).toggleClass('badge-light-success badge-light-danger');
-                                    row.find('.js-last-updated-on').text(lastUpdatedOn)
-                                    row.addClass('animate__animated animate__flash');
-                                    showSuccessMessage();
-                                }
-                            })
-                        }
-                    });
-                });
-
-                // Remove the animation classes
-                var row = $('.js-to-remove-animation');
-                row.on('animationend', function () {
-                    row.removeClass('animate__animated animate__flash');
-                });
-            });
-        </script>
 }

@@ -1,7 +1,4 @@
-﻿using BookLand.Web.Core.ViewModels;
-using BookLand.Web.Filters;
-
-namespace BookLand.Web.Controllers;
+﻿namespace BookLand.Web.Controllers;
 public class CategoriesController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -14,8 +11,17 @@ public class CategoriesController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        // TODO: use ViewModel
-        List<Category> categories = [.. _context.Categories.AsNoTracking()];
+        List<CategoryViewModel> categories = [.. _context.Categories
+            .Select(c => new CategoryViewModel
+            {
+                Id = c.Id,
+                Name = c.Name,
+                IsDeleted = c.IsDeleted,
+                CreatedOn = c.CreatedOn,
+                LastUpdatedOn = c.LastUpdatedOn
+            })
+            .AsNoTracking()];
+
         return View(categories);
     }
 
@@ -37,7 +43,16 @@ public class CategoriesController : Controller
         _context.Categories.Add(category);
         _context.SaveChanges();
 
-        return PartialView("_CategoryRaw", category);
+        CategoryViewModel viewModel = new()
+        {
+            Id = category.Id,
+            Name = category.Name,
+            IsDeleted = category.IsDeleted,
+            CreatedOn = category.CreatedOn,
+            LastUpdatedOn = category.LastUpdatedOn
+        };
+
+        return PartialView("_CategoryRaw", viewModel);
     }
 
     [HttpGet]
@@ -70,7 +85,16 @@ public class CategoriesController : Controller
         category.LastUpdatedOn = DateTime.Now;
         _context.SaveChanges();
 
-        return PartialView("_CategoryRaw", category);
+        CategoryViewModel viewModel = new()
+        {
+            Id = category.Id,
+            Name = category.Name,
+            IsDeleted = category.IsDeleted,
+            CreatedOn = category.CreatedOn,
+            LastUpdatedOn = category.LastUpdatedOn
+        };
+
+        return PartialView("_CategoryRaw", viewModel);
     }
 
     [HttpPost]
@@ -88,6 +112,14 @@ public class CategoriesController : Controller
         _context.SaveChanges();
 
         return Ok(category.LastUpdatedOn.ToString());
+    }
+
+    public IActionResult IsAllowdRecord(CategoryFromViewModel model)
+    {
+        Category? category = _context.Categories.SingleOrDefault(c => c.Name == model.Name);
+        bool isAllowed = category is null || category.Id == model.Id;
+
+        return Json(isAllowed);
     }
 
 }

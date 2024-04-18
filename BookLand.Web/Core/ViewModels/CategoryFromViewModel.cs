@@ -5,6 +5,6 @@ public class CategoryFromViewModel
     public int Id { get; set; }
 
     [MaxLength(20, ErrorMessage = "The maximum length is 100 characters")]
-    [Display(Name = "Category Name")]
+    [Remote("IsAllowdRecord", "Categories", AdditionalFields = nameof(Id), ErrorMessage = "This name is already exists")]
     public string Name { get; set; } = null!;
 }

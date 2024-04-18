@@ -22,6 +22,12 @@
     <!--begin::Theme mode setup on page load-->
     <script>var defaultThemeMode = "light"; var themeMode; if (document.documentElement) { if (document.documentElement.hasAttribute("data-theme-mode")) { themeMode = document.documentElement.getAttribute("data-theme-mode"); } else { if (localStorage.getItem("data-theme") !== null) { themeMode = localStorage.getItem("data-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-theme", themeMode); }</script>
     <!--end::Theme mode setup on page load-->
+    <!--begin::Page loading(append to body)-->
+    <div class="page-loader flex-column">
+        <span class="spinner-border text-primary" role="status"></span>
+        <span class="text-muted fs-6 fw-semibold mt-5">Loading...</span>
+    </div>
+    <!--end::Page loading-->
     <!--begin::Main-->
     <!--begin::Root-->
     <div class="d-flex flex-column flex-root">
@@ -31,7 +37,7 @@
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <!--begin::Header-->
                 <partial name="_Header">
-                    <!--end::Header-->
+                    <!--end::Head   er-->
                     <!--begin::Content wrapper-->
                     <div class="d-flex flex-column-fluid">
                         <!--begin::Aside-->

@@ -31,7 +31,7 @@ function onModalSuccess(row) {
     datatable.row.add(newRow).draw();
 
     KTMenu.init();
-    KTMenu.initHandlers();
+    KTMenu.initGlobalHandlers();
 
 };
 
@@ -58,13 +58,58 @@ $(function () {
 
         modal.modal('show');
     });
+
+    // Handle Toggle state
+    $('.js-toggle-status').on('click', function () {
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-danger",
+                cancelButton: "btn btn-success"
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You want to change category state",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var btn = $(this);
+                $.post({
+                    url: btn.data('url'),
+                    data: {
+                        '__RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (lastUpdatedOn) {
+                        var row = btn.parents('tr');
+                        var status = row.find('.js-status');
+                        var newStatus = status.text().trim() === 'Deleted' ? 'Available' : 'Deleted';
+                        status.text(newStatus).toggleClass('badge-light-success badge-light-danger');
+                        row.find('.js-last-updated-on').text(lastUpdatedOn)
+                        row.addClass('animate__animated animate__flash');
+                        showSuccessMessage();
+                    }
+                })
+            }
+        });
+    });
+
+    // Remove the animation classes
+    var row = $('.js-to-remove-animation');
+    row.on('animationend', function () {
+        row.removeClass('animate__animated animate__flash');
+    });
 });
 
 var KTDatatablesExample = function () {
     var initDatatable = function () {
         datatable = $(table).DataTable({
             "info": false,
-            'order': [],
             'pageLength': 10,
         });
     }
@@ -126,3 +171,11 @@ var KTDatatablesExample = function () {
         }
     };
 }();
+
+function onModelBegin() {
+    $('body :submit').attr('disabled', 'disabled');
+    $('body :submit').attr('data-kt-indicator', 'on');
+}
+function onModelComplete() {
+    $('body :submit').removeAttr('data-kt-indicator');
+}
