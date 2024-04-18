@@ -1,6 +1,6 @@
 ﻿namespace BookLand.Web.Core.ViewModels;
 
-public class CategoryFromViewModel
+public class CategoryFormViewModel
 {
     public int Id { get; set; }
 

@@ -1,3 +1,6 @@
+using BookLand.Web.Core.Mapping;
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,12 +14,13 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
 else

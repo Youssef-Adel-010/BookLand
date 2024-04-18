@@ -2,27 +2,21 @@
 public class CategoriesController : Controller
 {
     private readonly ApplicationDbContext _context;
-
-    public CategoriesController(ApplicationDbContext context)
+    private readonly IMapper _mapper;
+    public CategoriesController(ApplicationDbContext context, IMapper mapper)
     {
         this._context = context;
+        this._mapper = mapper;
     }
 
     [HttpGet]
     public IActionResult Index()
     {
-        List<CategoryViewModel> categories = [.. _context.Categories
-            .Select(c => new CategoryViewModel
-            {
-                Id = c.Id,
-                Name = c.Name,
-                IsDeleted = c.IsDeleted,
-                CreatedOn = c.CreatedOn,
-                LastUpdatedOn = c.LastUpdatedOn
-            })
-            .AsNoTracking()];
+        var categories = _context.Categories.AsNoTracking().ToList();
 
-        return View(categories);
+        var viewModel = _mapper.Map<IEnumerable<CategoryViewModel>>(categories);
+
+        return View(viewModel);
     }
 
     [HttpGet]
@@ -34,23 +28,17 @@ public class CategoriesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(CategoryFromViewModel model)
+    public IActionResult Create(CategoryFormViewModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        Category category = new() { Name = model.Name };
+        Category category = _mapper.Map<Category>(model);
+
         _context.Categories.Add(category);
         _context.SaveChanges();
 
-        CategoryViewModel viewModel = new()
-        {
-            Id = category.Id,
-            Name = category.Name,
-            IsDeleted = category.IsDeleted,
-            CreatedOn = category.CreatedOn,
-            LastUpdatedOn = category.LastUpdatedOn
-        };
+        CategoryViewModel viewModel = _mapper.Map<CategoryViewModel>(category);
 
         return PartialView("_CategoryRaw", viewModel);
     }
@@ -60,10 +48,11 @@ public class CategoriesController : Controller
     public IActionResult Edit(int id)
     {
         Category? category = _context.Categories.Find(id);
+
         if (category is null)
             return NotFound();
 
-        CategoryFromViewModel model = new() { Id = id, Name = category.Name };
+        CategoryFormViewModel model = _mapper.Map<CategoryFormViewModel>(category);
 
         return PartialView("_Form", model);
     }
@@ -71,7 +60,7 @@ public class CategoriesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(CategoryFromViewModel model)
+    public IActionResult Edit(CategoryFormViewModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest();
@@ -81,18 +70,11 @@ public class CategoriesController : Controller
         if (category is null)
             return NotFound();
 
-        category.Name = model.Name;
+        category = _mapper.Map(model, category);
         category.LastUpdatedOn = DateTime.Now;
         _context.SaveChanges();
 
-        CategoryViewModel viewModel = new()
-        {
-            Id = category.Id,
-            Name = category.Name,
-            IsDeleted = category.IsDeleted,
-            CreatedOn = category.CreatedOn,
-            LastUpdatedOn = category.LastUpdatedOn
-        };
+        CategoryViewModel viewModel = _mapper.Map<CategoryViewModel>(category);
 
         return PartialView("_CategoryRaw", viewModel);
     }
@@ -108,15 +90,15 @@ public class CategoriesController : Controller
 
         category.IsDeleted = !category.IsDeleted;
         category.LastUpdatedOn = DateTime.Now;
-
         _context.SaveChanges();
 
         return Ok(category.LastUpdatedOn.ToString());
     }
 
-    public IActionResult IsAllowdRecord(CategoryFromViewModel model)
+    public IActionResult IsAllowdRecord(CategoryFormViewModel model)
     {
         Category? category = _context.Categories.SingleOrDefault(c => c.Name == model.Name);
+
         bool isAllowed = category is null || category.Id == model.Id;
 
         return Json(isAllowed);
