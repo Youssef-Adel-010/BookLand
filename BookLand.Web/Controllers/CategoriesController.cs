@@ -1,4 +1,6 @@
-﻿namespace BookLand.Web.Controllers;
+﻿using BookLand.Web.Core.ViewModels.Categories;
+
+namespace BookLand.Web.Controllers;
 public class CategoriesController : Controller
 {
     private readonly ApplicationDbContext _context;

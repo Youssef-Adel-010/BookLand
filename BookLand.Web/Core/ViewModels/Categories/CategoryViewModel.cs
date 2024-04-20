@@ -1,4 +1,4 @@
-﻿namespace BookLand.Web.Core.ViewModels;
+﻿namespace BookLand.Web.Core.ViewModels.Categories;
 
 public class CategoryViewModel
 {
