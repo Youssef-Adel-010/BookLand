@@ -36,7 +36,7 @@ namespace BookLand.Web.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastUpdatedOn")
+                    b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")

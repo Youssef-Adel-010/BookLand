@@ -97,7 +97,7 @@ public class CategoriesController : Controller
         return Ok(category.LastUpdatedOn.ToString());
     }
 
-    public IActionResult IsAllowdRecord(CategoryFormViewModel model)
+    public IActionResult IsAllowedRecord(CategoryFormViewModel model)
     {
         Category? category = _context.Categories.SingleOrDefault(c => c.Name == model.Name);
 

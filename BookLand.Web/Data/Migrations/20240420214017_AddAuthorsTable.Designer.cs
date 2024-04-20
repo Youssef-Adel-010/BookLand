@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookLand.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240420182908_AddUniqueIndexToAuthorsTable")]
-    partial class AddUniqueIndexToAuthorsTable
+    [Migration("20240420214017_AddAuthorsTable")]
+    partial class AddAuthorsTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,7 @@ namespace BookLand.Web.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastUpdatedOn")
+                    b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
