@@ -13,5 +13,6 @@ public class MappingProfile : Profile
 
         // Authors
         CreateMap<Author, AuthorViewModel>();
+        CreateMap<AuthorFormViewModel, Author>().ReverseMap();
     }
 }

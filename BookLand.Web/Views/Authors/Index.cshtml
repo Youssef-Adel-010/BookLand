@@ -1,7 +1,19 @@
-﻿@model I
+﻿@model IEnumerable<AuthorViewModel>
+
 @{
     ViewData["Title"] = "Authors";
 }
+
+@section Styles
+{
+    <link href="~/assets/plugins/datatables/datatables.bundle.css" rel="stylesheet" />
+    <style>
+        .dataTables_wrapper table thead th {
+            text-align: center;
+        }
+    </style>
+}
+
 <div class="alert bg-light-primary border border-primary border-2 border-dashed d-flex justify-content-between w-100 p-6 mb-2">
     <div class="d-flex align-items-center">
         <div class="symbol symbol-40px me-4">
@@ -83,12 +95,24 @@
                     </tr>
                 </thead>
                 <tbody class="fill-the-table">
-                    @foreach (CategoryViewModel category in Model)
+                    @foreach (var author in Model)
                     {
-                        <partial name="_CategoryRaw" model="category" />
+                        <partial name="_AuthorRaw" model="@author"></partial>
                     }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+@Html.AntiForgeryToken()
+
+@section Plugins
+{
+    <script src="~/assets/plugins/datatables/datatables.bundle.js"></script>
+}
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial">
+}

@@ -95,7 +95,7 @@
                     </tr>
                 </thead>
                 <tbody class="fill-the-table">
-                    @foreach (CategoryViewModel category in Model)
+                    @foreach (var category in Model)
                     {
                         <partial name="_CategoryRaw" model="category" />
                     }
