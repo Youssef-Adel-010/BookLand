@@ -1,6 +1,9 @@
 ﻿global using AutoMapper;
 global using BookLand.Web.Core.Models;
 global using BookLand.Web.Core.ViewModels;
+global using BookLand.Web.Core.ViewModels.Authors;
+global using BookLand.Web.Core.ViewModels.Books;
+global using BookLand.Web.Core.ViewModels.Categories;
 global using BookLand.Web.Data;
 global using BookLand.Web.Filters;
 global using Microsoft.AspNetCore.Identity;

@@ -1,7 +1,4 @@
-﻿using BookLand.Web.Core.ViewModels.Authors;
-using BookLand.Web.Core.ViewModels.Books;
-using BookLand.Web.Core.ViewModels.Categories;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookLand.Web.Core.Mapping;
 
