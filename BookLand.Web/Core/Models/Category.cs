@@ -8,6 +8,6 @@ public class Category : BaseEntity
     [MaxLength(100)]
     public string Name { get; set; } = null!;
 
-    public ICollection<BookCategory> BookCategories { get; set; } = new List<BookCategory>();
+    public ICollection<BookCategory> Books { get; set; } = new List<BookCategory>();
 
 }

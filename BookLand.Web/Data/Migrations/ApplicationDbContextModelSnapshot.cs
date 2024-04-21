@@ -49,7 +49,7 @@ namespace BookLand.Web.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("BookLand.Web.Core.Models.Book", b =>
@@ -108,7 +108,7 @@ namespace BookLand.Web.Data.Migrations
                     b.HasIndex("Title", "AuthorId")
                         .IsUnique();
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("BookLand.Web.Core.Models.BookCategory", b =>
@@ -123,7 +123,7 @@ namespace BookLand.Web.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("BookCategories");
+                    b.ToTable("BookCategories", (string)null);
                 });
 
             modelBuilder.Entity("BookLand.Web.Core.Models.Category", b =>
@@ -153,7 +153,7 @@ namespace BookLand.Web.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
