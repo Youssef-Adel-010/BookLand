@@ -1,12 +1,10 @@
 ﻿namespace BookLand.Web.Core.Models;
 
-[Index(nameof(Name), IsUnique = true)]
 public class BaseEntity
 {
-    public int Id { get; set; }
+    public DateTime CreatedOn { get; set; } = DateTime.Now;
 
-    [MaxLength(100)]
-    public string Name { get; set; } = null!;
+    public DateTime? LastUpdatedOn { get; set; } = null;
 
     public bool IsDeleted { get; set; }
 }

@@ -1,9 +1,13 @@
 ﻿namespace BookLand.Web.Core.Models;
 
+[Index(nameof(Name), IsUnique = true)]
 public class Category : BaseEntity
 {
-    public DateTime CreatedOn { get; set; } = DateTime.Now;
+    public int Id { get; set; }
 
-    public DateTime? LastUpdatedOn { get; set; } = null;
+    [MaxLength(100)]
+    public string Name { get; set; } = null!;
+
+    public ICollection<BookCategory> BookCategories { get; set; } = new List<BookCategory>();
 
 }
