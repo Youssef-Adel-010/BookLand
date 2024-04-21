@@ -19,7 +19,7 @@ public class BookFormViewModel
     public string Publisher { get; set; } = null!;
 
     [Display(Name = "Publishing Date")]
-    public DateTime PublishedOn { get; set; }
+    public DateTime PublishedOn { get; set; } = DateTime.Now;
 
     public IFormFile? Image { get; set; }
 
